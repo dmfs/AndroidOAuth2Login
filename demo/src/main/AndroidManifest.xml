@@ -33,6 +33,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name="org.dmfs.oauth2.android.activities.RedirectActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="org.dmfs.oauth2.android.demo"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

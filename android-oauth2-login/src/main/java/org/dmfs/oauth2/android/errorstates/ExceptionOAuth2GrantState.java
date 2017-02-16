@@ -22,6 +22,7 @@ import org.dmfs.httpessentials.exceptions.ProtocolException;
 import org.dmfs.oauth2.client.OAuth2AccessToken;
 import org.dmfs.oauth2.client.OAuth2Client;
 import org.dmfs.oauth2.client.OAuth2InteractiveGrant;
+import org.dmfs.rfc3986.Uri;
 
 import java.io.IOException;
 import java.net.URI;
@@ -34,6 +35,8 @@ import java.net.URI;
  */
 public final class ExceptionOAuth2GrantState implements OAuth2InteractiveGrant.OAuth2GrantState
 {
+    private static final long serialVersionUID = 1L;
+
     private final ProtocolException mError;
 
 
@@ -74,7 +77,7 @@ public final class ExceptionOAuth2GrantState implements OAuth2InteractiveGrant.O
 
 
         @Override
-        public OAuth2InteractiveGrant withRedirect(URI uri) throws ProtocolError, ProtocolException
+        public OAuth2InteractiveGrant withRedirect(Uri uri) throws ProtocolError, ProtocolException
         {
             throw new IllegalStateException("Can't handle redirects at this stage.");
         }

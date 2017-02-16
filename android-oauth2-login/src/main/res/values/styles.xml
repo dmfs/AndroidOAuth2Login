@@ -1,0 +1,9 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="oauth2_translucent" parent="android:Theme.Translucent.NoTitleBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">?attr/colorPrimary</item>
+    </style>
+
+</resources>

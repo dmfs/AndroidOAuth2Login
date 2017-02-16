@@ -40,13 +40,15 @@ import org.dmfs.oauth2.android.errorstates.ExceptionOAuth2GrantState;
 import org.dmfs.oauth2.client.OAuth2Client;
 import org.dmfs.oauth2.client.OAuth2InteractiveGrant;
 import org.dmfs.pigeonpost.Cage;
+import org.dmfs.rfc3986.Uri;
+import org.dmfs.rfc3986.encoding.Precoded;
+import org.dmfs.rfc3986.uris.LazyUri;
 
 import java.io.Serializable;
-import java.net.URI;
 
 
 /**
- * A fragment that handles the UI part an interactive grant.
+ * A fragment that handles the UI part of an interactive grant.
  *
  * @author Marten Gajda
  */
@@ -157,10 +159,9 @@ public final class InteractiveGrantFragment extends Fragment implements View.OnK
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url)
         {
-            URI newUrl = URI.create(url);
-            URI redirectUri = mClient.redirectUri();
-            if (redirectUri.getRawAuthority().equals(newUrl.getRawAuthority()) && redirectUri.getScheme()
-                    .equals(newUrl.getScheme()) && redirectUri.getRawPath().equals(newUrl.getRawPath()))
+            Uri newUrl = new LazyUri(new Precoded(url));
+            Uri redirectUri = mClient.redirectUri();
+            if (newUrl.toString().startsWith(redirectUri.toString()))
             {
                 try
                 {

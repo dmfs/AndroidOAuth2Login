@@ -20,6 +20,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.dmfs.httpessentials.client.HttpRequestExecutor;
@@ -32,8 +33,8 @@ import org.dmfs.httpessentials.executors.retrying.Retrying;
 import org.dmfs.httpessentials.httpurlconnection.HttpUrlConnectionExecutor;
 import org.dmfs.httpessentials.httpurlconnection.factories.DefaultHttpUrlConnectionFactory;
 import org.dmfs.httpessentials.httpurlconnection.factories.decorators.Finite;
+import org.dmfs.oauth2.android.BasicOAuth2Authorization;
 import org.dmfs.oauth2.android.OAuth2ClientFactory;
-import org.dmfs.oauth2.android.SimpleOAuth2Authorization;
 import org.dmfs.oauth2.android.errors.AuthorizationCancelledError;
 import org.dmfs.oauth2.android.tools.AccessTokenTask;
 import org.dmfs.oauth2.android.tools.AsyncTaskResult;
@@ -48,8 +49,8 @@ import org.dmfs.oauth2.client.scope.BasicScope;
 import org.dmfs.oauth2.providers.GoogleAuthorizationProvider;
 import org.dmfs.pigeonpost.Dovecote;
 import org.dmfs.pigeonpost.localbroadcast.SerializableDovecote;
-
-import java.net.URI;
+import org.dmfs.rfc3986.encoding.Precoded;
+import org.dmfs.rfc3986.uris.LazyUri;
 
 
 /**
@@ -88,7 +89,7 @@ public class DemoActivity extends AppCompatActivity implements Dovecote.OnPigeon
         if (savedInstanceState == null)
         {
             // start the authorization
-            new SimpleOAuth2Authorization(
+            new BasicOAuth2Authorization(
                     factory,
                     new AuthorizationCodeGrant(mClient, new BasicScope("https://www.googleapis.com/auth/carddav")), R.id.oauth2fragment)
                     .withCage(mGrantStateDovecote.cage())
@@ -125,28 +126,37 @@ public class DemoActivity extends AppCompatActivity implements Dovecote.OnPigeon
                         {
                             // the OAuth2AccessToken like so:
                             OAuth2AccessToken accessToken = result.value();
+                            Log.v("xxxxxxxxxxx", "successfully authorized " + accessToken.accessToken());
                             Toast.makeText(DemoActivity.this, "successfully authorized " + accessToken.accessToken(), Toast.LENGTH_LONG).show();
                         }
                         catch (AuthorizationCancelledError e)
                         {
                             // the user pressed back to cancel the authorization process
-                            finish();
+                            Log.v("xxxxxxxxxxx", "cancelled ");
+                            Toast.makeText(DemoActivity.this, "cancelled", Toast.LENGTH_LONG).show();
                         }
                         catch (ProtocolError e)
                         {
-                            // an error occurred, the user probably didn't authorize the client
+                            // an error occurred,  user probably didn't authorize the client
+                            Log.v("xxxxxxxxxxx", "error  " + e.getMessage());
+                            Toast.makeText(DemoActivity.this, "error" + e.getMessage(), Toast.LENGTH_LONG).show();
                             e.printStackTrace();
                         }
                         catch (ProtocolException e)
                         {
                             // there was a protocol error, i.e. the server send an invalid response
+                            Log.v("xxxxxxxxxxx", "error  " + e.getMessage());
+                            Toast.makeText(DemoActivity.this, "error" + e.getMessage(), Toast.LENGTH_LONG).show();
                             e.printStackTrace();
                         }
                         catch (Exception e)
                         {
                             // any other exception was thrown during the authorization
+                            Log.v("xxxxxxxxxxx", "error  " + e.getMessage());
+                            Toast.makeText(DemoActivity.this, "error" + e.getMessage(), Toast.LENGTH_LONG).show();
                             e.printStackTrace();
                         }
+
                     }
                 }).execute(executor);
     }
@@ -161,7 +171,7 @@ public class DemoActivity extends AppCompatActivity implements Dovecote.OnPigeon
             // This OAuth2ClientFactory returns a Google client
             return new BasicOAuth2Client(new GoogleAuthorizationProvider(),
                     new BasicOAuth2ClientCredentials(BuildConfig.OAUTH2_CLIENT_ID, BuildConfig.OAUTH2_CLIENT_SECRET),
-                    URI.create("http://localhost:9765/"));
+                    new LazyUri(new Precoded("org.dmfs.oauth2.android.demo:/oauth2redirect")));
         }
     }
 }

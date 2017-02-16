@@ -29,6 +29,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = ['oauth2RedirectScheme': 'org.dmfs.carddav']
     }
     buildTypes {
         debug {

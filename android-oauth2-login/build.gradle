@@ -27,7 +27,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        manifestPlaceholders = ['oauth2RedirectScheme': 'replaceme']
     }
     buildTypes {
         release {
@@ -43,7 +43,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:customtabs:23.3.0'
     testCompile 'junit:junit:4.12'
     compile 'com.github.dmfs.PigeonPost:pigeon-post:0.2'
-    compile 'org.dmfs:oauth2-essentials:0.5.2'
+    compile 'org.dmfs:oauth2-essentials:0.6'
 }
