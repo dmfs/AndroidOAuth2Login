@@ -86,7 +86,7 @@ public final class OAuth2GrantProxyFragment extends Fragment
             if (Build.VERSION.SDK_INT >= 15)
             {
                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), android.support.v7.appcompat.R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+                builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material));
                 builder.setShowTitle(true);
                 CustomTabsIntent customTabsIntent = builder.build();
                 authIntent = customTabsIntent.intent.setData(authUrl);
