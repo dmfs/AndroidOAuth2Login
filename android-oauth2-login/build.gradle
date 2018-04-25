@@ -17,8 +17,7 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.3'
+    compileSdkVersion 27
 
     defaultConfig {
         minSdkVersion 14
@@ -42,9 +41,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:customtabs:25.3.1'
+    compile 'com.android.support:appcompat-v7:27.1.1'
+    compile 'com.android.support:customtabs:27.1.1'
     testCompile 'junit:junit:4.12'
-    compile 'com.github.dmfs.PigeonPost:pigeon-post:0.2'
+    compile 'com.github.dmfs.PigeonPost:pigeon-post:0.3'
     compile 'org.dmfs:oauth2-essentials:0.9'
 }
